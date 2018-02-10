@@ -14,8 +14,6 @@ export default class Register extends Component {
             width: undefined,
             account: {
                 firstName: undefined,
-                firstName: undefined,
-                firstName: undefined,
                 lastName: undefined,
                 username: undefined,
                 password: undefined,
@@ -35,7 +33,6 @@ export default class Register extends Component {
     }
 
     cancel = () => {
-        // this.props.screenProps.clearError();
         this.props.navigation.goBack();
     }
 
@@ -46,7 +43,6 @@ export default class Register extends Component {
         if(!firstName || !lastName || !username || !password || !email || this.state.usernameExists) {
             return true;
         }
-
         return false;
     }
 
@@ -81,13 +77,13 @@ export default class Register extends Component {
                                 </View>
                                 <Item regular style={{marginBottom: 5}} error={this.state.usernameExists}>
                                     <Input autoCapitalize='none' style={{backgroundColor: 'white', borderWidth: 1, borderColor: '#acacac', opacity:0.5}}  placeholder='Username' onChangeText={(username) => this.enterUsername(username)} />
-                                    {this.state.usernameExists && <Icon name='exclamation' size={30} color='red' />}
+                                    {this.state.usernameExists && <Icon name='exclamation-circle' size={30} color='red' />}
                                 </Item>
                                 <Item regular style={{marginBottom: 5}}>
                                     <Input autoCapitalize='none' style={{backgroundColor: 'white', borderWidth: 1, borderColor: '#acacac', opacity:0.5}}  placeholder='Email' keyboardType='email-address' onChangeText={(email) => this.setState({ account: { ...this.state.account, email } })} />
                                 </Item>
                                 <Item regular style={{marginBottom: 5}}>
-                                    <Input style={{backgroundColor: 'white', borderWidth: 1, borderColor: '#acacac', opacity:0.5}}  placeholder='Password' secureTextEntry={true} onChangeText={(password) => this.setState({ account: { ...this.state.account, password } })} />
+                                    <Input autoCapitalize='none' style={{backgroundColor: 'white', borderWidth: 1, borderColor: '#acacac', opacity:0.5}}  placeholder='Password' secureTextEntry={true} onChangeText={(password) => this.setState({ account: { ...this.state.account, password } })} />
                                 </Item>
                             </View>
                             <Button disabled={this.isRegisteredDisabled()} text='REGISTER' onPress={() => this.register()} buttonStyle={[styles.loginButton, {width: width / 1.5}, this.isRegisteredDisabled() && {opacity: 0.5}]} />
@@ -104,7 +100,6 @@ const styles = StyleSheet.create({
     loginButton: {
         marginTop: 15,
         backgroundColor: "#5386E4",
-        // width: 300,
         height: 45,
         borderColor: "transparent",
         borderWidth: 0,
@@ -114,7 +109,6 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginBottom: 15,
         backgroundColor: "#ED6A5A",
-        width: 300,
         height: 45,
         borderColor: "transparent",
         borderWidth: 0,
@@ -146,23 +140,5 @@ const styles = StyleSheet.create({
         flex: 6,
         alignItems: 'center',
         justifyContent: 'center'
-    },
-    buttonText: {
-        color: 'white',
-        fontWeight: 'bold'
-    },
-    // loginButton: {
-    //   flex: 1,
-    //   backgroundColor: '#00A6FB',
-    //   alignSelf: 'stretch',
-    //   alignItems: 'center',
-    //   justifyContent: 'center'
-    // },
-    // registerButton: {
-    //   flex: 1,
-    //   backgroundColor: '#FF5E5B',
-    //   alignSelf: 'stretch',
-    //   alignItems: 'center',
-    //   justifyContent: 'center'
-    // }
+    }
 });

@@ -5,7 +5,9 @@ import {
   View
 } from 'react-native';
 import { LoggedOutNavigator } from './components/LoggedOut/LoggedOutNavigator';
+import { LoggedInNavigator } from './components/LoggedIn/LoggedInNavigator';
 import { authUser } from './services/AuthService';
+import { registerUser } from './services/AccountService';
 
 export default class App extends Component {
 
@@ -22,20 +24,23 @@ export default class App extends Component {
 
   login = (username, password) => {
     this.setState({isLoading: true});
-    authUser(username, password).then(res => {
-      console.log(res);
-      // this.setState({isLoggedIn: res});
+    authUser(username, password).then(account => {
+      if(account.length){
+        this.setState({isLoggedIn: true, account: account[0], isLoading: false, error:''});
+      }
+      else {
+        this.setState({error: 'Error - Wrong credentials.'});
+      }
     });
   }
 
   register = (accountInfo) => {
-    console.log(accountInfo);
-    // register(accountInfo.username, accountInfo.email, accountInfo.password, accountInfo.firstName, accountInfo.lastName)
-    //   .then(res => {
-    //     AuthService.updateUser(res.uid, userInfo);
-    //     this.login(userInfo.username, userInfo.password);
-    //   })
-    //   .catch(err => this.setState({error: err.toString().replace('Error: ', '')}));
+    registerUser(accountInfo)
+      .then(res => {
+        console.log(res);
+        // this.login(userInfo.username, userInfo.password);
+      })
+      .catch(err => this.setState({error: err.toString().replace('Error: ', '')}));
   }
 
   logout = () => {
@@ -49,7 +54,7 @@ export default class App extends Component {
   render() {
     return (
       this.state.isLoggedIn ?
-        <MainLoggedInNavigator screenProps={
+        <LoggedInNavigator screenProps={
           {
             // editUser: (editedField) => this.editUser(editedField),
             logout: () => this.logout(),

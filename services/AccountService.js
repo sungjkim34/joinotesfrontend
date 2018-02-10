@@ -1,14 +1,18 @@
 import { serverURL } from '../env';
 
-export const registerUser = (username, password, accountType, personId) => {
-    var uri = `${serverURL}/registerUser`;
+export const registerUser = (accountInfo) => {
+    console.log(accountInfo)
+    const { username, email, password, firstName, lastName } = accountInfo;
+    var uri = `${serverURL}/registerAccount`;
+    console.log('re')
     return fetch(uri, {
         method: 'POST',
         body: JSON.stringify({
             username,
             password,
-            accountType,
-            personId
+            email,
+            firstName,
+            lastName
         }), 
         headers: new Headers({
             'Content-Type': 'application/json'

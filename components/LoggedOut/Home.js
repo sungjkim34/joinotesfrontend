@@ -11,7 +11,9 @@ export default class Home extends Component {
     super();
     this.state = {
       height: undefined,
-      width: undefined
+      width: undefined,
+      username: undefined,
+      password: undefined
     };
   }
 
@@ -21,11 +23,25 @@ export default class Home extends Component {
   }
 
   login = () => {
-    this.props.navigation.navigate('Login');
+
+    const { username, password } = this.state;
+
+    this.props.screenProps.login(username, password);
+    // this.props.navigation.navigate('Login');
   }
 
   register = () => {
     this.props.navigation.navigate('Register');
+  }
+
+  isRegisteredDisabled() {
+
+    const { username, password } = this.state;
+
+    if(!username || !password) {
+        return true;
+    }
+    return false;
   }
   
   render() {
@@ -40,15 +56,18 @@ export default class Home extends Component {
             <View style={styles.topContainer}>
               <Text style={styles.logoText}>JoiNotes</Text>
             </View>
+            <View style={{marginLeft: 25, marginRight: 25}}>
+            <Text style={{color:'#FF5E5B', fontWeight:'bold', alignSelf: 'center'}}>{this.props.screenProps.error}</Text>
             <Item>
-              <Icon style={{marginLeft: 25}} name='user' size={24} color='#4c4c4c' />
-              <Input autoCapitalize='none' placeholderTextColor='#4c4c4c' placeholder='username'/>
+              <Icon style={{marginRight: 5}} name='user' size={24} color='#4c4c4c' />
+              <Input autoCapitalize='none' placeholderTextColor='#4c4c4c' placeholder='username'  onChangeText={(username) => this.setState({ username })}/>
             </Item>
             <Item style={{marginTop: 10}}>
-              <Icon style={{marginLeft: 25}} name='lock' size={24} color='#4c4c4c' />
-              <Input placeholderTextColor='#4c4c4c' secureTextEntry={true} placeholder='password'/>
+              <Icon style={{marginRight: 5}} name='lock' size={24} color='#4c4c4c' />
+              <Input autoCapitalize='none' placeholderTextColor='#4c4c4c' secureTextEntry={true} placeholder='password' onChangeText={(password) => this.setState({ password })}/>
             </Item>
-            <Button text='LOGIN' onPress={() => this.login()} buttonStyle={[styles.loginButton, { width: width / 1.5 }]} />
+            </View>
+            <Button disabled={this.isRegisteredDisabled()} text='LOGIN' onPress={() => this.login()} buttonStyle={[styles.loginButton, { width: width / 1.5 }, this.isRegisteredDisabled() && {opacity: 0.5}]} />
             <Button text='REGISTER' onPress={() => this.register()} buttonStyle={[styles.registerButton, { width: width / 1.5 }]} />
           </View>
           </KeyboardAvoidingView>
