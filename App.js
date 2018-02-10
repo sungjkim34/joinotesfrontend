@@ -2,40 +2,67 @@ import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
-  Text,
   View
 } from 'react-native';
+import { LoggedOutNavigator } from './components/LoggedOut/LoggedOutNavigator';
+import { authUser } from './services/AuthService';
 
 export default class App extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      isLoggedIn: false,
+      isLoading: false,
+      account: {},
+      student: {},
+      error: ''
+    }
+  }
+
+  login = (username, password) => {
+    this.setState({isLoading: true});
+    authUser(username, password).then(res => {
+      console.log(res);
+      // this.setState({isLoggedIn: res});
+    });
+  }
+
+  // register = (accountInfo) => {
+  //   register(accountInfo.username, accountInfo.email, accountInfo.password, accountInfo.studentId)
+  //     .then(res => {
+  //       AuthService.updateUser(res.uid, userInfo);
+  //       this.login(userInfo.username, userInfo.password);
+  //     })
+  //     .catch(err => this.setState({error: err.toString().replace('Error: ', '')}));
+  // }
+
+  logout = () => {
+    // Log out of mysql??? Should we hold logged in state?
+    this.setState({
+      ...this.state,
+      isLoggedIn: false
+    });
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-      </View>
+      this.state.isLoggedIn ?
+        <MainLoggedInNavigator screenProps={
+          {
+            // editUser: (editedField) => this.editUser(editedField),
+            logout: () => this.logout(),
+            account: this.state.account,
+          }}/>
+                :
+        <LoggedOutNavigator screenProps={
+          { 
+            login: (username, password) => this.login(username, password),
+            // register: (userInfo) => this.register(userInfo),
+            // clearError: () => this.clearError(),
+            isLoading: this.state.isLoading,
+            error: this.state.error
+          }}/>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
