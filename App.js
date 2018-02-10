@@ -28,14 +28,15 @@ export default class App extends Component {
     });
   }
 
-  // register = (accountInfo) => {
-  //   register(accountInfo.username, accountInfo.email, accountInfo.password, accountInfo.studentId)
-  //     .then(res => {
-  //       AuthService.updateUser(res.uid, userInfo);
-  //       this.login(userInfo.username, userInfo.password);
-  //     })
-  //     .catch(err => this.setState({error: err.toString().replace('Error: ', '')}));
-  // }
+  register = (accountInfo) => {
+    console.log(accountInfo);
+    // register(accountInfo.username, accountInfo.email, accountInfo.password, accountInfo.firstName, accountInfo.lastName)
+    //   .then(res => {
+    //     AuthService.updateUser(res.uid, userInfo);
+    //     this.login(userInfo.username, userInfo.password);
+    //   })
+    //   .catch(err => this.setState({error: err.toString().replace('Error: ', '')}));
+  }
 
   logout = () => {
     // Log out of mysql??? Should we hold logged in state?
@@ -58,7 +59,7 @@ export default class App extends Component {
         <LoggedOutNavigator screenProps={
           { 
             login: (username, password) => this.login(username, password),
-            // register: (userInfo) => this.register(userInfo),
+            register: (account) => this.register(account),
             // clearError: () => this.clearError(),
             isLoading: this.state.isLoading,
             error: this.state.error
