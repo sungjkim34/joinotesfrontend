@@ -50,7 +50,6 @@ export default class Register extends Component {
     enterUsername(username) {
         this.setState({ account: {...this.state.account,  username }});
         username && checkUsername(username).then(res => {
-            console.log(res);
             this.setState({usernameExists: res});
         });
     }

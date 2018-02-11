@@ -4,7 +4,6 @@ export const registerUser = (accountInfo) => {
     console.log(accountInfo)
     const { username, email, password, firstName, lastName } = accountInfo;
     var uri = `${serverURL}/registerAccount`;
-    console.log('re')
     return fetch(uri, {
         method: 'POST',
         body: JSON.stringify({
