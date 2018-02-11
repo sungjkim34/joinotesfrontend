@@ -53,3 +53,47 @@ export const deleteAccount = (accountId) => {
             console.error(error);
         });   
 }
+
+export const getEnrollmentCount = (accountId) => {
+    var uri = `${serverURL}/getEnrollmentCount/${accountId}`;
+        return fetch(uri).then((response) => response.json())
+            .then((responseJson) => {
+                return responseJson[0]['COUNT(*)'];
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+}
+
+export const getNoteCount = (accountId) => {
+    var uri = `${serverURL}/getNoteCount/${accountId}`;
+        return fetch(uri).then((response) => response.json())
+            .then((responseJson) => {
+                return responseJson[0]['COUNT(*)'];
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+}
+
+export const getAccountCount = (accountId) => {
+    var uri = `${serverURL}/getAccountCount`;
+        return fetch(uri).then((response) => response.json())
+            .then((responseJson) => {
+                return responseJson[0]['COUNT(*)'];
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+}
+
+export const toggleShowEnroll = (accountId) => {
+    var uri = `${serverURL}/toggleShowEnroll/${accountId}`;
+        return fetch(uri).then((response) => response.json())
+            .then((responseJson) => {
+                return responseJson;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+}

@@ -90,7 +90,7 @@ export default class Chat extends Component {
         <View style={{ alignContent: 'center' }}>
           <Divider style={{ marginVertical: 2, marginHorizontal: 15 }} />
           <TextInput onSubmitEditing={() => this.sendMessage()} value={this.state.messageText} style={{ borderWidth: 1, borderRadius: 3, margin: 10, borderColor: '#bfc0c0' }} width={width / 1.5} onChangeText={(messageText) => this.setState({ messageText })} placeholder='Enter message' />
-          <Button disabled={this.isRegisteredDisabled()} icon={<Icon name='paper-plane' size={15} color='white' />} text='SEND' onPress={() => this.sendMessage()} buttonStyle={[styles.loginButton, { width: width / 2 }, this.isRegisteredDisabled() && { opacity: 0.5 }]} />
+          <Button disabled={this.isRegisteredDisabled()} icon={<Icon name='paper-plane' size={15} color='white' />} text='SEND' onPress={() => this.sendMessage()} buttonStyle={[styles.sendButton, { width: width / 2 }, this.isRegisteredDisabled() && { opacity: 0.5 }]} />
         </View>
       </View>
     );
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     backgroundColor: 'rgba(0,0,0,0)'
   },
-  loginButton: {
+  sendButton: {
     // marginTop: 15,
     marginBottom: 15,
     backgroundColor: "#5386E4",

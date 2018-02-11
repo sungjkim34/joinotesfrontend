@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableHighlight, View, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, TouchableHighlight, View, ScrollView, RefreshControl, TouchableWithoutFeedback } from 'react-native';
 import { getClassNotes } from '../../../services/NoteService';
 import { List, ListItem, Body, Text } from 'native-base';
 import { Icon, SearchBar, SocialIcon } from 'react-native-elements';
@@ -10,7 +10,8 @@ export default class Note extends Component {
     super();
     this.state = {
       notes: [],
-      searchResults: undefined
+      searchResults: undefined,
+      refreshing: false
     }
   }
 
@@ -37,6 +38,14 @@ export default class Note extends Component {
     this.setState({searchResults});
   }
 
+  refresh = () => {
+    const classInfo = this.props.navigation.state.params;
+    getClassNotes(classInfo.id).then(notes => {
+      console.log(notes);
+      this.setState({notes});
+    });
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -45,7 +54,7 @@ export default class Note extends Component {
           onClearText={() => this.setState({searchResults:undefined})}
           onChangeText={(text) => this.search(text)}
           placeholder='Search for notes...' />
-          <ScrollView>
+          <ScrollView refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.refresh()} />}>
             <List>
               {!this.state.searchResults ? this.state.notes.map((note, i) => 
                 <ListItem key={i}>

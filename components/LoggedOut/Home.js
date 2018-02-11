@@ -64,7 +64,7 @@ export default class Home extends Component {
               </Item>
               <Item style={{marginTop: 10}}>
                 <Icon style={{marginRight: 5}} name='lock' size={24} color='#4c4c4c' />
-                <Input autoCapitalize='none' placeholderTextColor='#4c4c4c' secureTextEntry={true} placeholder='password' onChangeText={(password) => this.setState({ password })}/>
+                <Input onSubmitEditing={() => this.login()} autoCapitalize='none' placeholderTextColor='#4c4c4c' secureTextEntry={true} placeholder='password' onChangeText={(password) => this.setState({ password })}/>
               </Item>
               </View>
               <Button disabled={this.isRegisteredDisabled()} text='LOGIN' onPress={() => this.login()} buttonStyle={[styles.loginButton, { width: width / 1.5 }, this.isRegisteredDisabled() && {opacity: 0.5}]} />
@@ -129,18 +129,4 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
-  // loginButton: {
-  //   flex: 1,
-  //   backgroundColor: '#00A6FB',
-  //   alignSelf: 'stretch',
-  //   alignItems: 'center',
-  //   justifyContent: 'center'
-  // },
-  // registerButton: {
-  //   flex: 1,
-  //   backgroundColor: '#FF5E5B',
-  //   alignSelf: 'stretch',
-  //   alignItems: 'center',
-  //   justifyContent: 'center'
-  // }
 });

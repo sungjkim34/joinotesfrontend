@@ -7,30 +7,37 @@ import {
 import { LoggedOutNavigator } from './components/LoggedOut/LoggedOutNavigator';
 import { MainLoggedInNavigator } from './components/LoggedIn/MainLoggedInNavigator';
 import { authUser } from './services/AuthService';
-import { registerUser } from './services/AccountService';
+import { registerUser, toggleShowEnroll } from './services/AccountService';
 
 export default class App extends Component {
 
   constructor() {
     super();
-    // this.state = {
-    //   isLoggedIn: false,
-    //   isLoading: false,
-    //   account: {},
-    //   error: ''
-    // }
     this.state = {
-        isLoggedIn: true,
-        isLoading: false,
-        account: {
-          "id": 2,
-          "username": "jay",
-          "email": "jay@jay.com",
-          "firstName": "Jay",
-          "lastName": "Kim"
-        },
-        error: ''
-      }
+      isLoggedIn: false,
+      isLoading: false,
+      account: {},
+      error: ''
+    }
+    // this.state = {
+    //     isLoggedIn: true,
+    //     isLoading: false,
+    //     account: {
+    //       "id": 2,
+    //       "username": "jay",
+    //       "email": "jay@jay.com",
+    //       "firstName": "Jay",
+    //       "lastName": "Kim"
+    //     },
+    //     error: '',
+    //   }
+  }
+
+  toggleEnrollOnly = () => {
+    this.setState({account: {...this.state.account, showEnrolled: {...this.state.account.showEnrolled, data: [this.state.account.showEnrolled.data[0] === 0 ? 1 : 0]}}})
+    toggleShowEnroll(this.state.account.id).then(res => {
+      console.log(res);
+    });
   }
 
   login = (username, password) => {
@@ -66,8 +73,8 @@ export default class App extends Component {
       this.state.isLoggedIn ?
         <MainLoggedInNavigator screenProps={
           {
-            // editUser: (editedField) => this.editUser(editedField),
             logout: () => this.logout(),
+            toggleEnrollOnly: () => this.toggleEnrollOnly(),
             account: this.state.account,
           }}/>
                 :
@@ -75,7 +82,6 @@ export default class App extends Component {
           { 
             login: (username, password) => this.login(username, password),
             register: (account) => this.register(account),
-            // clearError: () => this.clearError(),
             isLoading: this.state.isLoading,
             error: this.state.error
           }}/>

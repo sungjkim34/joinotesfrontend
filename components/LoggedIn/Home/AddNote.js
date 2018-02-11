@@ -36,8 +36,9 @@ export default class AddNote extends Component {
         const classInfo = this.props.navigation.state.params;
 
         addNote(note).then(res => {
-            console.log(res);
-            this.props.navigation.navigate('Note', {id: classInfo.id});
+            // console.log(res);
+            // this.props.navigation.navigate('Note', {id: classInfo.id});
+            this.props.navigation.goBack();
         });
     }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, RefreshControl } from 'react-native';
 import { getAccountEnrollmentDetailed, getAllClassesDetailed, enrollClass, dropClass } from '../../../services/ClassService';
 import { List, ListItem, Body, Text } from 'native-base';
 import { Icon, SearchBar } from 'react-native-elements';
@@ -10,17 +10,19 @@ export default class Home extends Component {
     this.state = {
       classList: [],
       enrolledClasses: [],
-      searchResults: undefined
+      searchResults: undefined,
+      refreshing: false
     }
   }
 
   componentWillMount() {
     const { account } = this.props.screenProps;
-    getAllClassesDetailed().then(classList => {
+    
+    account.showEnrolled.data[0] === 0 && getAllClassesDetailed().then(classList => {
       this.setState({ classList });
     });
     getAccountEnrollmentDetailed(account.id).then(enrolledClasses => {
-      this.setState({ enrolledClasses });
+      account.showEnrolled.data[0] !== 0 ? this.setState({ classList: enrolledClasses, enrolledClasses }) : this.setState({ enrolledClasses });
     });
   }
 
@@ -54,6 +56,20 @@ export default class Home extends Component {
     this.setState({searchResults});
   }
 
+  refresh = () => {
+    const { account } = this.props.screenProps;
+
+    this.setState({refreshing: true});
+    account.showEnrolled.data[0] === 0 && getAllClassesDetailed().then(classList => {
+      this.setState({ classList });
+      this.setState({refreshing: false});
+    });
+    getAccountEnrollmentDetailed(account.id).then(enrolledClasses => {
+      account.showEnrolled.data[0] !== 0 ? this.setState({ classList: enrolledClasses, enrolledClasses }) : this.setState({ enrolledClasses });
+      this.setState({refreshing: false});
+    });
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -62,7 +78,7 @@ export default class Home extends Component {
           onClearText={() => this.setState({searchResults:undefined})}
           onChangeText={(text) => this.search(text)}
           placeholder='Search for classes...' />
-          <ScrollView>
+          <ScrollView refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.refresh()} />}>
             <List>
               {!this.state.searchResults ?
                 this.state.classList.map((classInfo, i) => 
