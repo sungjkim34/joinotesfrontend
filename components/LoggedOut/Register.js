@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, KeyboardAvoidingView, Text, View, ImageBackground, TouchableHighlight } from 'react-native';
+import { Dimensions, Keyboard, StyleSheet, KeyboardAvoidingView, Text, View, ImageBackground, TouchableHighlight } from 'react-native';
 import { Button, Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Label, Input, Item } from 'native-base';
@@ -29,6 +29,7 @@ export default class Register extends Component {
     }
 
     register = () => {
+        Keyboard.dismiss();
         this.props.screenProps.register(this.state.account);
     }
 
@@ -75,12 +76,12 @@ export default class Register extends Component {
                                         <Input style={{backgroundColor: 'white', borderWidth: 1, borderColor: '#acacac', opacity:0.5}} placeholder='Last Name' onChangeText={(lastName) => this.setState({ account: { ...this.state.account, lastName } })} />
                                     </Item>
                                 </View>
+                                <Item regular style={{marginBottom: 5}}>
+                                    <Input autoCapitalize='none' style={{backgroundColor: 'white', borderWidth: 1, borderColor: '#acacac', opacity:0.5}}  placeholder='Email' keyboardType='email-address' onChangeText={(email) => this.setState({ account: { ...this.state.account, email } })} />
+                                </Item>
                                 <Item regular style={{marginBottom: 5}} error={this.state.usernameExists}>
                                     <Input autoCapitalize='none' style={{backgroundColor: 'white', borderWidth: 1, borderColor: '#acacac', opacity:0.5}}  placeholder='Username' onChangeText={(username) => this.enterUsername(username)} />
                                     {this.state.usernameExists && <Icon name='exclamation-circle' size={30} color='red' />}
-                                </Item>
-                                <Item regular style={{marginBottom: 5}}>
-                                    <Input autoCapitalize='none' style={{backgroundColor: 'white', borderWidth: 1, borderColor: '#acacac', opacity:0.5}}  placeholder='Email' keyboardType='email-address' onChangeText={(email) => this.setState({ account: { ...this.state.account, email } })} />
                                 </Item>
                                 <Item regular style={{marginBottom: 5}}>
                                     <Input autoCapitalize='none' style={{backgroundColor: 'white', borderWidth: 1, borderColor: '#acacac', opacity:0.5}}  placeholder='Password' secureTextEntry={true} onChangeText={(password) => this.setState({ account: { ...this.state.account, password } })} />

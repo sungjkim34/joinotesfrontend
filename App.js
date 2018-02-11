@@ -5,7 +5,7 @@ import {
   View
 } from 'react-native';
 import { LoggedOutNavigator } from './components/LoggedOut/LoggedOutNavigator';
-import { LoggedInNavigator } from './components/LoggedIn/LoggedInNavigator';
+import { MainLoggedInNavigator } from './components/LoggedIn/MainLoggedInNavigator';
 import { authUser } from './services/AuthService';
 import { registerUser } from './services/AccountService';
 
@@ -48,8 +48,7 @@ export default class App extends Component {
   register = (accountInfo) => {
     registerUser(accountInfo)
       .then(res => {
-        console.log(res);
-        // this.login(userInfo.username, userInfo.password);
+        this.login(accountInfo.username, accountInfo.password);
       })
       .catch(err => this.setState({error: err.toString().replace('Error: ', '')}));
   }
@@ -65,7 +64,7 @@ export default class App extends Component {
   render() {
     return (
       this.state.isLoggedIn ?
-        <LoggedInNavigator screenProps={
+        <MainLoggedInNavigator screenProps={
           {
             // editUser: (editedField) => this.editUser(editedField),
             logout: () => this.logout(),

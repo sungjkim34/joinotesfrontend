@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Home from './Home';
+import Home from './Home/Home';
 import Profile from './Profile';
 import Chat from './Chat';
 
