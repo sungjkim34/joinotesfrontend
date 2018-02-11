@@ -13,13 +13,24 @@ export default class App extends Component {
 
   constructor() {
     super();
+    // this.state = {
+    //   isLoggedIn: false,
+    //   isLoading: false,
+    //   account: {},
+    //   error: ''
+    // }
     this.state = {
-      isLoggedIn: false,
-      isLoading: false,
-      account: {},
-      student: {},
-      error: ''
-    }
+        isLoggedIn: true,
+        isLoading: false,
+        account: {
+          "id": 2,
+          "username": "jay",
+          "email": "jay@jay.com",
+          "firstName": "Jay",
+          "lastName": "Kim"
+        },
+        error: ''
+      }
   }
 
   login = (username, password) => {
