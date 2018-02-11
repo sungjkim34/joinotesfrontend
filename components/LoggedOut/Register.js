@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dimensions, Keyboard, StyleSheet, KeyboardAvoidingView, Text, View, ImageBackground, TouchableHighlight } from 'react-native';
-import { Button, Overlay } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Label, Input, Item } from 'native-base';
 import { checkUsername } from '../../services/AccountService';

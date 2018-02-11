@@ -45,7 +45,7 @@ export default class Home extends Component {
     return !!enrolled;
   }
   
-  addNote = (classInfo) => {
+  viewNotes = (classInfo) => {
     this.props.navigation.navigate('Note', classInfo);
   }
 
@@ -58,7 +58,7 @@ export default class Home extends Component {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.contentContainer}>
-        <SearchBar clearIcon
+        <SearchBar clearIcon round
           onClearText={() => this.setState({searchResults:undefined})}
           onChangeText={(text) => this.search(text)}
           placeholder='Search for classes...' />
@@ -74,10 +74,10 @@ export default class Home extends Component {
                           <Icon name='plus' type='font-awesome' color='#5386E4' onPress={() => this.enrollClass(classInfo)}/>
                         }
                         <View style={{flex:1}}>
-                          <Text onPress={() => this.addNote(classInfo)}>{`${classInfo.courseName}${classInfo.courseId} - ${classInfo.name}`}</Text>
-                          <Text note onPress={() => this.addNote(classInfo)}>{`${classInfo.firstName} ${classInfo.lastName}`}</Text>
+                          <Text onPress={() => this.viewNotes(classInfo)}>{`${classInfo.courseName}${classInfo.courseId} - ${classInfo.name}`}</Text>
+                          <Text note onPress={() => this.viewNotes(classInfo)}>{`${classInfo.firstName} ${classInfo.lastName}`}</Text>
                         </View>
-                        <Icon name='chevron-right' type='font-awesome' size={15} color='#5386E4' onPress={() => this.addNote(classInfo)}/>
+                        <Icon name='chevron-right' type='font-awesome' size={15} color='#5386E4' onPress={() => this.viewNotes(classInfo)}/>
                       </View>
                     </Body>
                   </ListItem>) : 
@@ -93,7 +93,7 @@ export default class Home extends Component {
                           <Text>{`${classInfo.courseName}${classInfo.courseId} - ${classInfo.name}`}</Text>
                           <Text note>{`${classInfo.firstName} ${classInfo.lastName}`}</Text>
                         </View>
-                        <Icon name='chevron-right' type='font-awesome' size={15} color='#5386E4' onPress={() => this.addNote(classInfo.id)}/>
+                        <Icon name='chevron-right' type='font-awesome' size={15} color='#5386E4' onPress={() => this.viewNotes(classInfo.id)}/>
                       </View>
                     </Body>
                   </ListItem>)

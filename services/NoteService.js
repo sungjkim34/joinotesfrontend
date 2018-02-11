@@ -34,11 +34,12 @@ export const getNoteDetail = (noteId) => {
 }
 
 export const addNote = (note) => {
+    const { title, accountId, classId, detail } = note;
     const uri = `${serverURL}/addNote`
     return fetch(uri, {
         method: 'POST',
         body: JSON.stringify({
-            note
+            title, accountId, classId, detail
         }), 
         headers: new Headers({
             'Content-Type': 'application/json'

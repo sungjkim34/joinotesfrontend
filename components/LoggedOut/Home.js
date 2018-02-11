@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Dimensions, KeyboardAvoidingView, StyleSheet, Text, View, ImageBackground, TouchableHighlight } from 'react-native';
-import { Button, Overlay } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Item } from 'native-base';
 
@@ -52,24 +52,24 @@ export default class Home extends Component {
       <View style={styles.mainContainer}>
         <ImageBackground source={require('../../assets/bg-image.jpeg')} style={styles.backgroundImage}>
           <KeyboardAvoidingView width={width-50} height={height-120} isVisible={true}>
-          <View style={styles.contentContainer}>
-            <View style={styles.topContainer}>
-              <Text style={styles.logoText}>JoiNotes</Text>
+            <View style={styles.contentContainer}>
+              <View style={styles.topContainer}>
+                <Text style={styles.logoText}>JoiNotes</Text>
+              </View>
+              <View style={{marginLeft: 25, marginRight: 25}}>
+              <Text style={{color:'#FF5E5B', fontWeight:'bold', alignSelf: 'center'}}>{this.props.screenProps.error}</Text>
+              <Item>
+                <Icon style={{marginRight: 5}} name='user' size={24} color='#4c4c4c' />
+                <Input autoCapitalize='none' placeholderTextColor='#4c4c4c' placeholder='username'  onChangeText={(username) => this.setState({ username })}/>
+              </Item>
+              <Item style={{marginTop: 10}}>
+                <Icon style={{marginRight: 5}} name='lock' size={24} color='#4c4c4c' />
+                <Input autoCapitalize='none' placeholderTextColor='#4c4c4c' secureTextEntry={true} placeholder='password' onChangeText={(password) => this.setState({ password })}/>
+              </Item>
+              </View>
+              <Button disabled={this.isRegisteredDisabled()} text='LOGIN' onPress={() => this.login()} buttonStyle={[styles.loginButton, { width: width / 1.5 }, this.isRegisteredDisabled() && {opacity: 0.5}]} />
+              <Button text='REGISTER' onPress={() => this.register()} buttonStyle={[styles.registerButton, { width: width / 1.5 }]} />
             </View>
-            <View style={{marginLeft: 25, marginRight: 25}}>
-            <Text style={{color:'#FF5E5B', fontWeight:'bold', alignSelf: 'center'}}>{this.props.screenProps.error}</Text>
-            <Item>
-              <Icon style={{marginRight: 5}} name='user' size={24} color='#4c4c4c' />
-              <Input autoCapitalize='none' placeholderTextColor='#4c4c4c' placeholder='username'  onChangeText={(username) => this.setState({ username })}/>
-            </Item>
-            <Item style={{marginTop: 10}}>
-              <Icon style={{marginRight: 5}} name='lock' size={24} color='#4c4c4c' />
-              <Input autoCapitalize='none' placeholderTextColor='#4c4c4c' secureTextEntry={true} placeholder='password' onChangeText={(password) => this.setState({ password })}/>
-            </Item>
-            </View>
-            <Button disabled={this.isRegisteredDisabled()} text='LOGIN' onPress={() => this.login()} buttonStyle={[styles.loginButton, { width: width / 1.5 }, this.isRegisteredDisabled() && {opacity: 0.5}]} />
-            <Button text='REGISTER' onPress={() => this.register()} buttonStyle={[styles.registerButton, { width: width / 1.5 }]} />
-          </View>
           </KeyboardAvoidingView>
         </ImageBackground>
       </View>
