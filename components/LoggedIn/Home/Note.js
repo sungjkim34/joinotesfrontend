@@ -1,46 +1,30 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
-import { getAccountEnrollmentDetailed, getAllClassesDetailed } from '../../../services/ClassService';
+import { StyleSheet, View, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { getClassNotes } from '../../../services/NoteService';
 import { List, ListItem, Body, Text } from 'native-base';
 import { Icon, SearchBar } from 'react-native-elements';
+import moment from 'moment';
 
 export default class Note extends Component {
   constructor() {
     super();
     this.state = {
-      classList: [],
-      enrolledClasses: [],
+      notes: [],
       searchResults: undefined
     }
   }
 
   componentWillMount() {
     const classInfo = this.props.navigation.state.params;
-    getClassNotes(classInfo.id).then(res => {
-      console.log(res);
+    getClassNotes(classInfo.id).then(notes => {
+      console.log(notes);
+      this.setState({notes});
     });
   }
 
-  enrollClass = (classInfo) => {
-    const { account } = this.props.screenProps;
-
-    enrollClass(account.id, classInfo.id).then(res => {
-      this.setState({enrolledClasses: [...this.state.enrolledClasses, {...classInfo, enrollmentId: res.insertId}]})
-    });
-  }
-
-  dropClass = (classId) => {
-    const dropClassInfo = this.state.enrolledClasses.filter(enrolledClass => enrolledClass.id === classId)[0];
-    
-    dropClass(dropClassInfo.enrollmentId).then(res => {
-      this.setState({enrolledClasses: this.state.enrolledClasses.filter(enrolledClass => enrolledClass.enrollmentId !== dropClassInfo.enrollmentId)});
-    });
-  }
-
-  checkIfEnrolled(classId) {
-    const enrolled = this.state.enrolledClasses.filter(classInfo => classInfo.id === classId).length;
-    return !!enrolled;
+  showDetails(note) {
+    console.log('showdetails');
+    this.props.navigation.navigate('NoteDetail', note);
   }
   
   addNote = (classInfo) => {
@@ -48,7 +32,7 @@ export default class Note extends Component {
   }
 
   search = (text) => {
-    const searchResults = (text.replace(/ /g,'') !== '') && this.state.classList.filter(classInfo => `${classInfo.courseName}${classInfo.courseId} - ${classInfo.name}`.toLowerCase().includes(text.toLowerCase()) || `${classInfo.firstName} ${classInfo.lastName}`.toLowerCase().includes(text.toLowerCase()));
+    const searchResults = (text.replace(/ /g,'') !== '') && this.state.notes.filter(note => note.title.toLowerCase().includes(text.toLowerCase()) || `${note.firstName} ${note.lastName}`.toLowerCase().includes(text.toLowerCase()));
     this.setState({searchResults});
   }
 
@@ -59,44 +43,41 @@ export default class Note extends Component {
         <SearchBar clearIcon
           onClearText={() => this.setState({searchResults:undefined})}
           onChangeText={(text) => this.search(text)}
-          placeholder='Searchaefawef for classes...' />
+          placeholder='Search for notes...' />
           <ScrollView>
-            <Text>Notes</Text>
-            {/* <List>
-              {!this.state.searchResults ? this.state.classList.map((classInfo, i) => 
+            <List>
+              {!this.state.searchResults ? this.state.notes.map((note, i) => 
                 <ListItem key={i}>
                   <Body>
-                    <View flexDirection='row'>
-                      {this.checkIfEnrolled(classInfo.id) ?
-                        <Icon name='check' type='font-awesome' color='#61D893' onPress={() => this.dropClass(classInfo.id)}/> :
-                        <Icon name='plus' type='font-awesome' color='#5386E4' onPress={() => this.enrollClass(classInfo)}/>
-                      }
-                      <View style={{flex:1}}>
-                        <Text>{`${classInfo.courseName}${classInfo.courseId} - ${classInfo.name}`}</Text>
-                        <Text note>{`${classInfo.firstName} ${classInfo.lastName}`}</Text>
+                    <TouchableWithoutFeedback onPress={() => this.showDetails(note)} flexDirection='row' >
+                      <View flexDirection='row'>
+                        <Icon name='circle' type='font-awesome' size={5}/>
+                        <View style={{flex:1}}>
+                          <Text>{note.title}</Text>
+                          <View flexDirection='row'>
+                            <Text note>{`${note.firstName} ${note.lastName}`}</Text>
+                            <View style={{flex:1}}/>
+                            <Text note>{moment(note.date).format('MMM DD, YYYY')}</Text>
+                          </View>
+                        </View>
                       </View>
-                      <Icon name='chevron-right' type='font-awesome' size={15} color='#5386E4' onPress={() => this.addNote(classInfo.id)}/>
-                    </View>
+                    </TouchableWithoutFeedback>
                   </Body>
                 </ListItem>) : 
-                this.state.searchResults.map((classInfo, i) => 
+                this.state.searchResults.map((note, i) => 
                 <ListItem key={i}>
                   <Body>
                     <View flexDirection='row'>
-                      {this.checkIfEnrolled(classInfo.id) ?
-                        <Icon name='check' type='font-awesome' color='#61D893' onPress={() => this.dropClass(classInfo.id)}/> :
-                        <Icon name='plus' type='font-awesome' color='#5386E4' onPress={() => this.enrollClass(classInfo)}/>
-                      }
+                      <Icon name='circle' type='font-awesome' size={5}/>
                       <View style={{flex:1}}>
-                        <Text>{`${classInfo.courseName}${classInfo.courseId} - ${classInfo.name}`}</Text>
-                        <Text note>{`${classInfo.firstName} ${classInfo.lastName}`}</Text>
+                        <Text>{note.title}</Text>
+                        <Text note>{`${note.firstName} ${note.lastName}`}</Text>
                       </View>
-                      <Icon name='chevron-right' type='font-awesome' size={15} color='#5386E4' onPress={() => this.addNote(classInfo.id)}/>
                     </View>
                   </Body>
                 </ListItem>)
               }
-            </List> */}
+            </List>
           </ScrollView>
         </View>
       </View>

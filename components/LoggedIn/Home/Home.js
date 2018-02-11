@@ -64,38 +64,39 @@ export default class Home extends Component {
           placeholder='Search for classes...' />
           <ScrollView>
             <List>
-              {!this.state.searchResults ? this.state.classList.map((classInfo, i) => 
-                <ListItem key={i}>
-                  <Body>
-                    <View flexDirection='row'>
-                      {this.checkIfEnrolled(classInfo.id) ?
-                        <Icon name='check' type='font-awesome' color='#61D893' onPress={() => this.dropClass(classInfo.id)}/> :
-                        <Icon name='plus' type='font-awesome' color='#5386E4' onPress={() => this.enrollClass(classInfo)}/>
-                      }
-                      <View style={{flex:1}}>
-                        <Text>{`${classInfo.courseName}${classInfo.courseId} - ${classInfo.name}`}</Text>
-                        <Text note>{`${classInfo.firstName} ${classInfo.lastName}`}</Text>
+              {!this.state.searchResults ?
+                this.state.classList.map((classInfo, i) => 
+                  <ListItem key={i}>
+                    <Body>
+                      <View flexDirection='row'>
+                        {this.checkIfEnrolled(classInfo.id) ?
+                          <Icon name='check' type='font-awesome' color='#61D893' onPress={() => this.dropClass(classInfo.id)}/> :
+                          <Icon name='plus' type='font-awesome' color='#5386E4' onPress={() => this.enrollClass(classInfo)}/>
+                        }
+                        <View style={{flex:1}}>
+                          <Text onPress={() => this.addNote(classInfo)}>{`${classInfo.courseName}${classInfo.courseId} - ${classInfo.name}`}</Text>
+                          <Text note onPress={() => this.addNote(classInfo)}>{`${classInfo.firstName} ${classInfo.lastName}`}</Text>
+                        </View>
+                        <Icon name='chevron-right' type='font-awesome' size={15} color='#5386E4' onPress={() => this.addNote(classInfo)}/>
                       </View>
-                      <Icon name='chevron-right' type='font-awesome' size={15} color='#5386E4' onPress={() => this.addNote(classInfo)}/>
-                    </View>
-                  </Body>
-                </ListItem>) : 
-                this.state.searchResults.map((classInfo, i) => 
-                <ListItem key={i}>
-                  <Body>
-                    <View flexDirection='row'>
-                      {this.checkIfEnrolled(classInfo.id) ?
-                        <Icon name='check' type='font-awesome' color='#61D893' onPress={() => this.dropClass(classInfo.id)}/> :
-                        <Icon name='plus' type='font-awesome' color='#5386E4' onPress={() => this.enrollClass(classInfo)}/>
-                      }
-                      <View style={{flex:1}}>
-                        <Text>{`${classInfo.courseName}${classInfo.courseId} - ${classInfo.name}`}</Text>
-                        <Text note>{`${classInfo.firstName} ${classInfo.lastName}`}</Text>
+                    </Body>
+                  </ListItem>) : 
+                  this.state.searchResults.map((classInfo, i) => 
+                  <ListItem key={i}>
+                    <Body>
+                      <View flexDirection='row'>
+                        {this.checkIfEnrolled(classInfo.id) ?
+                          <Icon name='check' type='font-awesome' color='#61D893' onPress={() => this.dropClass(classInfo.id)}/> :
+                          <Icon name='plus' type='font-awesome' color='#5386E4' onPress={() => this.enrollClass(classInfo)}/>
+                        }
+                        <View style={{flex:1}}>
+                          <Text>{`${classInfo.courseName}${classInfo.courseId} - ${classInfo.name}`}</Text>
+                          <Text note>{`${classInfo.firstName} ${classInfo.lastName}`}</Text>
+                        </View>
+                        <Icon name='chevron-right' type='font-awesome' size={15} color='#5386E4' onPress={() => this.addNote(classInfo.id)}/>
                       </View>
-                      <Icon name='chevron-right' type='font-awesome' size={15} color='#5386E4' onPress={() => this.addNote(classInfo.id)}/>
-                    </View>
-                  </Body>
-                </ListItem>)
+                    </Body>
+                  </ListItem>)
               }
             </List>
           </ScrollView>

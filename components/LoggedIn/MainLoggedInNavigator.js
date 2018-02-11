@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 // import Home from './Home';
 import { LoggedInNavigator } from './LoggedInNavigator';
 import Note from './Home/Note';
+import NoteDetail from './Home/NoteDetail';
 // import AddNote from './AddNote';
 
 export const MainLoggedInNavigator = StackNavigator({
@@ -18,6 +19,13 @@ export const MainLoggedInNavigator = StackNavigator({
         headerStyle: { marginTop: (Platform.OS === 'ios') ? 0 : 15 }
       }
     },
+    NoteDetail: {
+        screen: NoteDetail,
+        navigationOptions: {
+          title: 'NoteDetail',
+          headerStyle: { marginTop: (Platform.OS === 'ios') ? 0 : 15 }
+        }
+      },
     // AddNote: {
     //   screen: AddNote,
     //   navigationOptions: {
